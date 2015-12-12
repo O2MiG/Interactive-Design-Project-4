@@ -34,6 +34,10 @@
 	var trans = .9;
 	var text = 'Just Sit Back and Watch';
 	var fadeCounter = 0
+
+	//gradient color variables
+	var gradientColors = ['rgba(32, 32, 146, 0.5)','rgba(204, 82, 0, 0.5)'];
+	var color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
 	
 
 	function init(){
@@ -54,6 +58,13 @@
 
 		timer = setInterval(resizeCanvas, 40);
 		//timer2 = setInterval(fader, 50);
+	}
+
+	function handleClick(x,y){
+		
+		color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
+
+
 	}
 
 	function fadeText(){
@@ -163,6 +174,7 @@
 	}
 
 	function makeTriangles(){
+		triangles = [];
 		for(var i = 0; i < 30; i++){
 			triangles.push(new Triangle());
 		}
@@ -224,14 +236,17 @@
 		}
 
 	function makeGradient(){
+
+		
+
 		var myGradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
-		myGradient.addColorStop(stopOne, "rgba(32, 32, 146,0.5)");
+		myGradient.addColorStop(stopOne, color);
 		myGradient.addColorStop(stopTwo, "rgba(0,0,0,0)");
 		context.fillStyle = myGradient;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 
 		myGradient = context.createLinearGradient(0, canvas.width, canvas.width, -canvas.height);
-		myGradient.addColorStop(stopOne, "rgba(32, 32, 146,0.5)");
+		myGradient.addColorStop(stopOne, color);
 		myGradient.addColorStop(stopTwo, "rgba(0,0,0,0)");
 		context.fillStyle = myGradient;
 		context.fillRect(0, 0, canvas.width, canvas.height);
