@@ -1,7 +1,16 @@
 <!doctype html>
 <html>
 <head>
-	<title>Canvas Animation</title>
+	<title>Interactive Canvas</title>
+	<style>
+		h1{
+			text-align: center;
+			font-family: 'Verdana';
+			font-size: 25px;
+			position: relative;
+				top: -20px;
+		}
+	</style>
 	<script>
 
 	var canvas;
@@ -38,6 +47,10 @@
 		makeCircles();
 		makeStars();
 		makeTriangles();
+
+		canvas.onclick = function(event) {
+			handleClick(event.clientX, event.clientY);
+			};
 
 		timer = setInterval(resizeCanvas, 40);
 		//timer2 = setInterval(fader, 50);
@@ -224,8 +237,8 @@
 		context.fillRect(0, 0, canvas.width, canvas.height);
 	}
 
-//meant to fade out previous shapes as new ones move around
-/*	function fader(){
+	//meant to fade out previous shapes as new ones move around
+	/*	function fader(){
 		context.fillStyle = 'rgba(0,0,0,0.3)';
 		context.fillRect(0,0, canvas.width, canvas.height);
 		}*/
@@ -236,7 +249,7 @@
 
 	function resizeCanvas(){
 		canvas.width = window.innerWidth - 15;
-		canvas.height = window.innerHeight - 15;
+		canvas.height = window.innerHeight - 80;
 		fillBackgroundColor();
 		makeGradient();
 
@@ -263,5 +276,6 @@
 
 <body>
 	<canvas id = 'canvas' width=500 height=500></canvas>
+	<h1>Click anywhere to create more Stars <br/>Press Q to change Background Color <br/>Press W to Move Mountians</h1>
 </body>
 </html>
