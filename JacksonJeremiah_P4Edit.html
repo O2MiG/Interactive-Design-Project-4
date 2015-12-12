@@ -41,6 +41,10 @@
 	var color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
 	
 
+
+
+
+
 	function init(){
 		canvas = document.getElementById('canvas');
 		context = canvas.getContext('2d');
@@ -52,7 +56,9 @@
 		makeCircles();
 		makeStars();
 		makeTriangles();
-
+		
+		//document.addEventListener('keydown', keyDownHandler, false);
+		
 		canvas.onclick = function(event) {
 			handleClick(event.clientX, event.clientY);
 			};
@@ -66,10 +72,20 @@
 		color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
 		while( tempColor == color){
 			color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
-		}
-
-
+		};
 	}
+
+	/*function keyPressHandler(e){
+		if(e.keyCode == 81){
+			changeColors();
+			};
+		if(e.keyCode == 87){
+			changeColors();
+			};
+		if(e.keyCode == 69){
+			changeColors();
+			};
+	}*/
 
 	function fadeText(){
 		textColor = 'rgba(255,255,255,' +trans+')';
