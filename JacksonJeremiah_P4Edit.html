@@ -36,7 +36,8 @@
 	var fadeCounter = 0
 
 	//gradient color variables
-	var gradientColors = ['rgba(32, 32, 146, 0.5)','rgba(204, 82, 0, 0.5)'];
+	var gradientColors = ['rgba(32, 32, 146, 0.5)','rgba(204, 82, 0, 0.5)','rgba(0, 153, 51, 0.5)','rgba(202, 204, 0, 0.5)',
+							'rgba(255, 153, 102, 0.5)', 'rgba(51, 153, 255, 0.5)'];
 	var color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
 	
 
@@ -61,8 +62,11 @@
 	}
 
 	function handleClick(x,y){
-		
+		var tempColor = color;
 		color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
+		while( tempColor == color){
+			color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
+		}
 
 
 	}
