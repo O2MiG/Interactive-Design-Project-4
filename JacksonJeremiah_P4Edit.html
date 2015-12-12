@@ -68,11 +68,7 @@
 	}
 
 	function handleClick(x,y){
-		var tempColor = color;
-		color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
-		while( tempColor == color){
-			color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
-		};
+		removeStars();
 	}
 
 	/*function keyPressHandler(e){
@@ -80,12 +76,20 @@
 			changeColors();
 			};
 		if(e.keyCode == 87){
-			changeColors();
+			makeTriangles();
 			};
 		if(e.keyCode == 69){
-			changeColors();
+			removeStars();
 			};
 	}*/
+
+	function changeColors(){
+		var tempColor = color;
+		color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
+		while( tempColor == color){
+			color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
+		};
+	}
 
 	function fadeText(){
 		textColor = 'rgba(255,255,255,' +trans+')';
@@ -145,7 +149,7 @@
     	this.vx = Math.random()*20-10;
 		this.vy = Math.random()*20-10;
 
-    	this.outerRadius = Math.floor(Math.random()*60 +10);
+    	this.outerRadius = Math.floor(Math.random()*40 +10);
     	this.innerRadius = this.outerRadius/2;
 
     	var colors = ['Moccasin', 'MistyRose', 'PapayaWhip', 'LightYellow', 'Beige', 'AntiqueWhite', 'Gainsboro', '#fff5e5'];
@@ -201,14 +205,23 @@
 	}
 
 	function makeCircles(){
+		circles = [];
 		for(var i = 0; i < 10; i++){
 			circles.push(new Circle());
 		}
 	}
 
 	function makeStars(){
-		for(var i = 0; i < circles.length; i++){
+		for(var i = 0; i < 5; i++){
 			stars.push(new Star());
+			}
+	}
+
+	function removeStars(){
+		if (stars.length > 0){
+			for (var i = 0; i < 5; i++){
+				stars.pop();
+			}
 		}
 	}
 
