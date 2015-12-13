@@ -57,21 +57,24 @@
 		makeStars();
 		makeTriangles();
 		
-		//document.addEventListener('keydown', keyDownHandler, false);
+		document.addEventListener('keypress', keyPressHandler, false);
 		
 		canvas.onclick = function(event) {
-			handleClick(event.clientX, event.clientY);
+			handleClick();
 			};
 
 		timer = setInterval(resizeCanvas, 40);
 		//timer2 = setInterval(fader, 50);
 	}
 
-	function handleClick(x,y){
+	function handleClick(){
 		makeStars();
+		changeColors();
+		makeTriangles();
+		removeStars();
 	}
 
-	/*function keyPressHandler(e){
+	function keyPressHandler(e){
 		if(e.keyCode == 81){
 			changeColors();
 			};
@@ -81,7 +84,7 @@
 		if(e.keyCode == 69){
 			removeStars();
 			};
-	}*/
+	}
 
 	function changeColors(){
 		var tempColor = color;
