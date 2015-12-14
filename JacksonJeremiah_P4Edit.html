@@ -12,80 +12,78 @@
 		}
 	</style>
 	<script>
-
 	var canvas;
 	var context;
-
 	//shape arrays
 	var circles = [];
 	var innerCircles = [];
 	var stars = [];
 	var triangles = [];
-
 	//timers
 	var timer;
 	var timer2;
-
 	var stopOne =0;
 	var stopTwo = .75;
-
 	//text variables
 	var textColor= 'rgba(255,255,255,1.0)';
 	var trans = .9;
 	var text = 'Just Sit Back and Watch';
 	var fadeCounter = 0
-
 	//gradient color variables
 	var gradientColors = ['rgba(32, 32, 146, 0.5)','rgba(204, 82, 0, 0.5)','rgba(0, 153, 51, 0.5)','rgba(202, 204, 0, 0.5)',
 							'rgba(255, 153, 102, 0.5)', 'rgba(51, 153, 255, 0.5)'];
 	var color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
 	
-
-
-
-
-
+	var keyAPressed = false;
+var keySPressed = false;
+	
 	function init(){
 		canvas = document.getElementById('canvas');
 		context = canvas.getContext('2d');
-
 		window.addEventListener('resize', resizeCanvas, false);
 		window.addEventListener('orientationchange', resizeCanvas, false);
-
 		resizeCanvas();
 		makeCircles();
 		makeStars();
 		makeTriangles();
 		
-		document.addEventListener('keypress', keyPressHandler, false);
+document.addEventListener('keydown', keyDownHandler, false);
+document.addEventListener('keyup', keyUpHandler, false);
 		
 		canvas.onclick = function(event) {
 			handleClick();
 			};
-
 		timer = setInterval(resizeCanvas, 40);
 		//timer2 = setInterval(fader, 50);
 	}
-
 	function handleClick(){
 		makeStars();
 		changeColors();
 		makeTriangles();
 		removeStars();
 	}
-
-	function keyPressHandler(e){
-		if(e.keyCode == 81){
-			changeColors();
-			};
-		if(e.keyCode == 87){
-			makeTriangles();
-			};
-		if(e.keyCode == 69){
-			removeStars();
-			};
+	function keyDownHandler(e) {
+	if(e.keyCode == 65) {
+		keyAPressed = true;
+		changeColors();
 	}
-
+	else if(e.keyCode == 83) {
+		keySPressed = true;
+		makeTriangles();
+	}
+	else if(e.keyCode == 69){
+			removeStars();
+			}
+}
+function keyUpHandler(e) {
+	if(e.keyCode == 65) {
+		keyAPressed = false;
+	}
+	else if(e.keyCode == 83) {
+		keySPressed = false;
+	}
+}
+	
 	function changeColors(){
 		var tempColor = color;
 		color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
@@ -93,7 +91,6 @@
 			color = gradientColors[Math.floor(Math.random() * gradientColors.length)];
 		};
 	}
-
 	function fadeText(){
 		textColor = 'rgba(255,255,255,' +trans+')';
 		if (trans > 0 && fadeCounter==0){
@@ -102,18 +99,15 @@
 			text = 'Relax A Little';
 			fadeCounter++;
 		}
-
 		if (trans <= 1.0 && fadeCounter==1){
 			trans +=.005;
 		} else if (trans >= 1.0 && fadeCounter==1){
 			fadeCounter++
 		}
-
 		if (trans >= 0 && fadeCounter==2){
 			trans -=.005;
 		}
 	}
-
 	function writeText(){
 			context.fillStyle = textColor;
 			context.font = '50px Arial';
@@ -121,26 +115,21 @@
 			context.fillText(text, canvas.width/2, canvas.height/2);
 			fadeText();
 		}
-
 	function Triangle(){
 		this.height = (Math.random()*40) * (Math.sqrt(3)/2 + 5);
 		this.x = Math.floor(Math.random() * canvas.width);
 		this.y = canvas.height - this.height;
-
 		var colors = ['SaddleBrown', 'Sienna', '#ca641c', '#5a2c0c', '#996633', '#c68c53', '#784d1e', '#784000', '#8e4000'];
     	this.color = colors[Math.floor(Math.random() * colors.length)];
 	}
-
 	function Circle(){
 		this.x = Math.floor(Math.random() * canvas.width);
 		this.y = Math.floor(Math.random() * (canvas.height -(40 * (Math.sqrt(3)/2 + 5)+20)));
-
 		var colors = ['BurlyWood', 'DarkGoldenRod', 'DarkSalmon', 'DarkViolet', 'yellow', 'DarkSeaGreen', 'DarkOrange', 'Crimson',
 						'RoyalBlue', 'Purple', 'Sienna', 'RosyBrown', 'Blue', 'DeepSkyBlue', 'OliveDrab'];
 		this.color = colors[Math.floor(Math.random() * colors.length)];
 		this.radius = Math.floor(Math.random() * (50 - 15 + 1)) + 15;
 	}
-
 	function Star(){
 		this.rot = Math.PI / 2 * 3;
    		this.cx = Math.floor(Math.random() * canvas.width);
@@ -148,33 +137,26 @@
     	this.x = this.cx;
 	    this.y = this.cy;
     	this.step = Math.PI / 5;
-
     	this.vx = Math.random()*20-10;
 		this.vy = Math.random()*20-10;
-
     	this.outerRadius = Math.floor(Math.random()*40 +10);
     	this.innerRadius = this.outerRadius/2;
-
     	var colors = ['Moccasin', 'MistyRose', 'PapayaWhip', 'LightYellow', 'Beige', 'AntiqueWhite', 'Gainsboro', '#fff5e5'];
     	this.color = colors[Math.floor(Math.random() * colors.length)];
 	}
-
 	function drawCircle(circle){
 		var c = circle;
 		var iC = circle;
-
 		context.beginPath();
 		context.arc(c.x, c.y, c.radius, 0, degreesToRadians(360), true);
 		context.fillStyle = c.color;
 		context.fill();
-
 		
 		context.beginPath();
 		context.arc(iC.x, iC.y, (iC.radius-5), 0, degreesToRadians(360), true);
 		context.fillStyle = 'black';
 		context.fill();
 	}
-
 	function growCircles(array){
 		for (var i = 0; i<circles.length; i++){
 			var circle = array[i];
@@ -186,11 +168,9 @@
 			}
 		}
 	}
-
 	function moveStars(array){
 		for (var i = 0; i < stars.length; i++){
 			var star = array[i];
-
 			star.cx += star.vx;
 			star.cy += star.vy;
 			if(star.cx < -50) star.cx = canvas.width+50;
@@ -199,27 +179,23 @@
 			if(star.cy > canvas.height+50) star.cy = -50;
 		}
 	}
-
 	function makeTriangles(){
 		triangles = [];
 		for(var i = 0; i < 30; i++){
 			triangles.push(new Triangle());
 		}
 	}
-
 	function makeCircles(){
 		circles = [];
 		for(var i = 0; i < 10; i++){
 			circles.push(new Circle());
 		}
 	}
-
 	function makeStars(){
 		for(var i = 0; i < 5; i++){
 			stars.push(new Star());
 			}
 	}
-
 	function removeStars(){
 		if (stars.length > 0){
 			for (var i = 0; i < 5; i++){
@@ -227,10 +203,8 @@
 			}
 		}
 	}
-
 	function drawTriangles(triangle){
 		var tri = triangle;
-
 		context.beginPath();
 		context.moveTo(tri.x, tri.y);
 		context.lineTo(tri.x+50, tri.y+tri.height);
@@ -241,10 +215,8 @@
 		context.stroke();
 		context.closePath();
 	}
-
 	function drawStars(star) {
 		var str = star;
-
 	    context.beginPath();
     	context.moveTo(str.cx, str.cy - str.outerRadius)
     	for (i = 0; i < 5; i++) {
@@ -252,75 +224,61 @@
         	str.y = str.cy + Math.sin(str.rot) * str.outerRadius;
         	context.lineTo(str.x, str.y)
         	str.rot += str.step
-
         	str.x = str.cx + Math.cos(str.rot) * str.innerRadius;
         	str.y = str.cy + Math.sin(str.rot) * str.innerRadius;
         	context.lineTo(str.x, str.y)
         	str.rot += str.step
     		}
-
     	context.lineTo(str.cx, str.cy - str.outerRadius)
     	context.closePath();
     	context.stroke();
     	context.fillStyle=str.color;
 	    context.fill();
 		}
-
 	function fillBackgroundColor(){
 		context.fillStyle = 'black';
 		context.fillRect(0,0, canvas.width, canvas.height);
 		}
-
 	function makeGradient(){
-
 		
-
 		var myGradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
 		myGradient.addColorStop(stopOne, color);
 		myGradient.addColorStop(stopTwo, "rgba(0,0,0,0)");
 		context.fillStyle = myGradient;
 		context.fillRect(0, 0, canvas.width, canvas.height);
-
 		myGradient = context.createLinearGradient(0, canvas.width, canvas.width, -canvas.height);
 		myGradient.addColorStop(stopOne, color);
 		myGradient.addColorStop(stopTwo, "rgba(0,0,0,0)");
 		context.fillStyle = myGradient;
 		context.fillRect(0, 0, canvas.width, canvas.height);
 	}
-
 	//meant to fade out previous shapes as new ones move around
 	/*	function fader(){
 		context.fillStyle = 'rgba(0,0,0,0.3)';
 		context.fillRect(0,0, canvas.width, canvas.height);
 		}*/
-
 	function degreesToRadians(degrees){
 		return (degrees*Math.PI)/180;
 		}
-
 	function resizeCanvas(){
 		canvas.width = window.innerWidth - 15;
 		canvas.height = window.innerHeight - 80;
 		fillBackgroundColor();
 		makeGradient();
-
 		for(var i = 0; i< triangles.length; i++){
 			drawTriangles(triangles[i]);
 		}
-
 		for(var i = 0; i< stars.length; i++){
 			drawStars(stars[i]);
 		}
 		for(var i = 0; i< circles.length; i++){
 			drawCircle(circles[i]);
 		}
-
 		moveStars(stars);
 		growCircles(circles);
 		writeText();
 		fadeText();
 	}
-
 	window.onload = init;
 	</script>
 </head>
